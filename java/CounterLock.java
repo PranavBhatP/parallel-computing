@@ -2,7 +2,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 class CounterLock {
     private int count = 0;
-    private final ReentrantLock lock = new ReentrantLock();
+    private final ReentrantLock lock = new ReentrantLock(false);
 
     public void increment(){
         lock.lock();
