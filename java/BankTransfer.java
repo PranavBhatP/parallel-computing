@@ -39,14 +39,20 @@ class BankTransfer{
         Account a = new Account(1000);
         Account b = new Account(1000);
 
-        Runnable r = () -> {
+        Runnable r1 = () -> {
             for(int i = 0; i < 100; i++){
                 a.transfer(b, 1);
             }
         };
 
-        Thread t1 = new Thread(r);
-        Thread t2 = new Thread(r);
+        Runnable r2 = () -> {
+            for(int i = 0; i < 100; i++){
+                b.transfer(a, 1);
+            }
+        };
+
+        Thread t1 = new Thread(r1);
+        Thread t2 = new Thread(r2);
 
         t1.start();t2.start();
         t1.join();t2.join();

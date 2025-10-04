@@ -18,7 +18,7 @@ public class PriorityThread extends Thread {
 
         // the order of execution of threads is handled by the JVM.
         p1.start();
-        p3.start();
         p2.start();
+        p3.start();
     }
 }

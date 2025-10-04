@@ -13,6 +13,6 @@ class Counter implements Runnable{
         Thread t1 = new Thread(counter, "T1");
         Thread t2 = new Thread(counter, "T2");
 
-        t1.start();t2.start();
+        t2.start();t1.start();
     }
 }

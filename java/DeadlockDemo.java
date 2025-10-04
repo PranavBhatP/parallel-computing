@@ -5,11 +5,15 @@ class DeadlockDemo {
         ReentrantLock lockA = new ReentrantLock();
         ReentrantLock lockB = new ReentrantLock();
 
+        // acquire locks in the same order.
         Runnable r1 = () -> {
             lockA.lock();
             try {
                 Thread.sleep(100);
                 lockB.lock();
+                // use try finally, to prevent a deadlock, and handle
+                // all exceptions once the lock is locked, to prevent
+                // it from being held indefinitely.
                 try { System.out.println("Thread 1 acquired both locks"); }
                 finally { lockB.unlock(); }
             } catch (InterruptedException e) {}

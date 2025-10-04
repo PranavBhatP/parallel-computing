@@ -24,7 +24,8 @@ class FairLockDemo {
         };
 
         for(int i = 0; i < 3; i++){
-            new Thread(task, "Thread" + i).start();
+            new Thread(task, "Thread" + i).start(); // fair lock follows the order.
+            // unfair lock does not, any thread can enter and acquire the lock while other continue to wait.
         }
     }
 }

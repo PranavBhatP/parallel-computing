@@ -2,8 +2,10 @@ import java.util.concurrent.Semaphore;
 
 public class SleepingBarber {
     static final int CHAIRS = 3; // waiting chairs.
-    static Semaphore customers = new Semaphore(0); // semaphore on waiting customers.
-    static Semaphore barber = new Semaphore(0);
+    static Semaphore customers = new Semaphore(0); // semaphore on waiting customers, synchronises the handoff between barber
+    // and customer. It ensures that the barber is asleep/blocking when there are no customers.
+    static Semaphore barber = new Semaphore(0); // semaphore for allowing customers to acquire the barber and ensures that the barber is used
+    // by only one customer at a time.
     static Semaphore mutex = new Semaphore(1); // mutex for the waiting variable, ensures mutex while accessing waiting chairs.
     static int waiting = 0;
 
@@ -19,10 +21,10 @@ public class SleepingBarber {
                 System.out.println("Barber is working.");
                 //customers.release();
                 mutex.release();
-                barber.release();
                 try {
                     Thread.sleep(200); // cutting hair.
                 } catch (InterruptedException e){}
+                barber.release();
             }
         }
     }
@@ -40,7 +42,8 @@ public class SleepingBarber {
                 System.out.println("Customer " + getName() + " got haircut.");
             } else {
                 System.out.println("Customer " + getName() +  "left (no avalaile chairs).");
-                mutex.release(); // release the mutex semaphore on waiting.
+                mutex.release(); // release the mutex semaphore on waiting, since the waiting is not updated
+                // after the customer leaves.
             }
         }
     }

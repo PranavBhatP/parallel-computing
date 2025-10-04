@@ -7,7 +7,7 @@ class ProducerConsumer {
     static Queue<Integer> buffer = new LinkedList<>();
     static Semaphore empty = new Semaphore(BUFFER_SIZE);
     static Semaphore full = new Semaphore(0);
-    static Semaphore mutex = new Semaphore(1);
+    static Semaphore mutex = new Semaphore(1); // mutex for buffer.
 
     static class Producer extends Thread {
         public void run() {
@@ -15,8 +15,8 @@ class ProducerConsumer {
                 for (int i = 0; i < 5; i++) {
                     empty.acquire();
                     mutex.acquire();
-                    buffer.add(i);
-                    System.out.println("Produced: " + i);
+                    buffer.add(i+1);
+                    System.out.println("Produced: " + (i+1));
                     mutex.release();
                     full.release();
                     Thread.sleep(100);
